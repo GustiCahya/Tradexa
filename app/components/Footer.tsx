@@ -21,17 +21,9 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-medium mb-4 text-sm">Product</h3>
             <ul className="flex flex-col gap-3 text-sm text-gray-400">
-              <li><Link href="/overview" className="hover:text-white transition-colors">Dashboard</Link></li>
-              <li><Link href="/trade-input" className="hover:text-white transition-colors">Log a Trade</Link></li>
-              <li><Link href="/summary" className="hover:text-white transition-colors">Analytics</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-white font-medium mb-4 text-sm">Legal</h3>
-            <ul className="flex flex-col gap-3 text-sm text-gray-400">
-              <li><Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link href="/overview" className="hover:text-white transition-colors">Overview</Link></li>
+              <li><Link href="/trade-input" className="hover:text-white transition-colors">Trade Input</Link></li>
+              <li><Link href="/summary" className="hover:text-white transition-colors">Summary</Link></li>
             </ul>
           </div>
         </div>

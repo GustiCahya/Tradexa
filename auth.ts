@@ -21,7 +21,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { email: credentials.email as string }
         })
         
-        if (user && user.password === credentials.password) {
+        // We need bcrypt to compare the hashed password
+        const bcrypt = require('bcryptjs');
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        
+        if (isValid) {
            return user
         }
         return null
