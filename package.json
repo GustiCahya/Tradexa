@@ -11,11 +11,14 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
     "@hookform/resolvers": "^5.2.2",
+    "@neondatabase/serverless": "^1.0.2",
+    "@prisma/adapter-neon": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "@types/bcryptjs": "^3.0.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.3.1",
     "framer-motion": "^12.34.5",
     "jotai": "^2.18.0",
     "lucide-react": "^0.576.0",
@@ -38,6 +41,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "prisma": "^7.4.2",
     "sass": "^1.97.3",
     "tailwindcss": "^4",
     "typescript": "^5"
