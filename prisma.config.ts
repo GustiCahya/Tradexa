@@ -1,8 +1,4 @@
 import { defineConfig } from 'prisma/config'
-import { PrismaNeon } from '@prisma/adapter-neon'
-import * as dotenv from 'dotenv'
-
-dotenv.config({ path: '.env.local' }) 
 
 export default defineConfig({
   datasource: {
