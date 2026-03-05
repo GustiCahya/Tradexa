@@ -19,7 +19,7 @@ export default function LoginPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("registered")) {
-      setSuccessMsg("Account created mapping carefully. Please log in.");
+      setSuccessMsg("Account created. Please log in.");
     }
   }, []);
 
@@ -108,6 +108,7 @@ export default function LoginPage() {
                   <input 
                     type="email" 
                     required
+                    tabIndex={1}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="you@example.com"
@@ -118,13 +119,14 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-gray-300">Password</label>
-                    <Link href="#" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                    <Link href="#" tabIndex={4} className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
                       Forgot password?
                     </Link>
                   </div>
                   <input 
                     type="password" 
                     required
+                    tabIndex={2}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     placeholder="••••••••"
@@ -134,6 +136,7 @@ export default function LoginPage() {
 
                 <button 
                   type="submit" 
+                  tabIndex={3}
                   disabled={isLoading}
                   className="w-full h-12 mt-4 rounded-lg bg-white text-black font-semibold hover:bg-gray-200 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
                 >
