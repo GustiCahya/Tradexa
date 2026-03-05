@@ -106,7 +106,8 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Email Address</label>
                   <input 
-                    type="email" 
+                    type="text"
+                    inputMode="email" 
                     required
                     tabIndex={1}
                     value={formData.email}

@@ -94,7 +94,8 @@ export default function RegisterPage() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Email Address</label>
                   <input 
-                    type="email" 
+                    type="text"
+                    inputMode="email"  
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
