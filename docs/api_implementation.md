@@ -43,6 +43,13 @@ All endpoints require an authenticated user session. The `userId` is extracted f
 - **Purpose**: Fetch a single trade for the Edit form.
 - **Response**: Pre-populated trade object. Returns `404` or `401` if not found or unauthorized.
 
+### `DELETE /api/trades/[id]`
+- **Purpose**: Delete a trade by its ID.
+- **Auth**: Session required. The backend verifies the trade belongs to the authenticated user before deleting.
+- **Response**: `200 OK` with `{ success: true }`. Returns `404` if the trade is not found or doesn't belong to the user.
+- **Frontend Behavior**: The row is optimistically removed from the local state with an animated exit (fade + scale down). No page refresh needed.
+
+
 ### Summary Analytics & Overview
 In Next.js, the Overview page fetches directly from the Database via Server Components (Service Layer). For a REST architecture, you would implement:
 

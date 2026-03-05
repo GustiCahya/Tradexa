@@ -140,6 +140,13 @@ export async function getSummaryAnalytics(userId: string) {
   };
 }
 
+export async function deleteTrade(userId: string, tradeId: string) {
+  // Verify the trade belongs to the user before deleting
+  const trade = await prisma.trade.findFirst({ where: { id: tradeId, userId } });
+  if (!trade) return null;
+  return prisma.trade.delete({ where: { id: tradeId } });
+}
+
 export async function getTrade(userId: string, tradeId: string) {
   return await prisma.trade.findFirst({
     where: { id: tradeId, userId }

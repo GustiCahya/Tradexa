@@ -15,13 +15,14 @@ The central hub for viewing trade history.
   - Total Trades (Count).
   - Average RR (Mean of all RR).
 - **Interactive Trade Table:**
-  - **Sorting:** Clickable column headers (Date, Pair, Session, TF, Dir, RR, Mindset, PnL) to sort Ascending/Descending.
+  - **Sorting:** Clickable column headers (Date, Pair, Session, TF, Dir, RR, Mindset, PnL) to sort Ascending/Descending. Rows animate smoothly on reorder via `framer-motion` layout animations.
   - **Filtering:** A modal exposing multi-criteria filters:
     - Arrays (Checkboxes): Pairs, Sessions, Timeframes.
     - Dropdowns: Direction (Long/Short), PnL State (Winning/Losing/Breakeven).
     - Ranges: Date (From/To), RR (Min/Max).
   - **Pagination:** Chunks the data locally (Client-side) into 100 rows per page.
   - **Clickable Rows:** Clicking a row routes the user to the Edit page (`/trade-input?id=...`).
+  - **Delete via Context Menu:** Right-clicking (desktop) or long-pressing (mobile, 600ms hold) on a row shows an animated floating context menu. Clicking "Delete Trade" calls `DELETE /api/trades/[id]` and optimistically removes the row from the local state with an animated exit.
 
 ## 3. Log Trade (Form)
 Handles both Creation and Editing of trade records.
