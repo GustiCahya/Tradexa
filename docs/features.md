@@ -10,7 +10,7 @@ This document describes the core features and user flows of the Tradexa applicat
 ## 2. Dashboard (Overview)
 The central hub for viewing trade history.
 - **Summary Cards:** Top-level stats calculated from all trades.
-  - Total PnL (sum of all PnL, green if positive, red if negative).
+  - Total PnL (sum of all PnL, blue if positive, orange if negative).
   - Win Rate (% of trades where PnL > 0).
   - Total Trades (Count).
   - Average RR (Mean of all RR).
@@ -39,7 +39,7 @@ Handles both Creation and Editing of trade records.
 ## 4. Analytics (Summary View)
 Visual data representation using Recharts.
 - **Cumulative PnL Curve:** A Line chart mapping `date` (X-axis) against a rolling sum of `pnl` (Y-axis).
-- **Average RR by Session:** A Bar chart mapping the Mean RR grouping by `session` (London, New York, Asian, Frankfurt). Bars are colored Emerald if RR > 2, else Blue.
+- **Average RR by Session:** A Bar chart mapping the Mean RR grouping by `session` (London, New York, Asian, Frankfurt). Bars are colored Blue if RR > 2, else Slate/Muted.
 - **Psychological Insights:**
   - Most Frequent Emotion (Count of highest occurring `emotion` string).
   - Worst Session by RR.

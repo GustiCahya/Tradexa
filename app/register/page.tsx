@@ -73,7 +73,7 @@ export default function RegisterPage() {
           <FadeIn delay={0.3}>
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl">
               {error && (
-                <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                <div className="mb-6 p-4 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
                   {error}
                 </div>
               )}

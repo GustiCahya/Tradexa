@@ -271,8 +271,8 @@ function TradeInputForm() {
                   onChange={handleChange}
                   className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-all appearance-none"
                 >
-                  <option value="LONG" className="bg-gray-900 text-emerald-400">Long</option>
-                  <option value="SHORT" className="bg-gray-900 text-red-400">Short</option>
+                  <option value="LONG" className="bg-gray-900 text-blue-400">Long</option>
+                  <option value="SHORT" className="bg-gray-900 text-orange-400">Short</option>
                 </select>
               </div>
 

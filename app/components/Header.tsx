@@ -49,7 +49,7 @@ export default async function Header() {
                     "use server";
                     await signOut({ redirectTo: '/login' });
                   }}>
-                    <button type="submit" className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors cursor-pointer">
+                    <button type="submit" className="w-full text-left px-4 py-2.5 text-sm font-medium text-orange-400 hover:text-orange-300 hover:bg-white/5 transition-colors cursor-pointer">
                       Log out
                     </button>
                   </form>

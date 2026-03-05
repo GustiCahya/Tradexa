@@ -20,11 +20,11 @@ The application strictly adheres to a premium, dark-mode-first aesthetic.
 ### Accent Colors
 Used for specific states, icons, and chart elements.
 - **Brand/Primary (Links, Logos, Charts):** Blue-500 (`#3B82F6`) to Blue-400 (`#60A5FA`)
-- **Success/Winning/Long:** Emerald-500 (`#10B981`) to Emerald-400 (`#34D399`)
-- **Danger/Losing/Short:** Red-500 (`#EF4444`) to Red-400 (`#F87171`)
+- **Success/Winning/Long (Reduced Stress):** Blue-500 (`#3B82F6`) to Blue-400 (`#60A5FA`)
+- **Danger/Losing/Short (Reduced Stress):** Orange-500 (`#F97316`) to Orange-400 (`#FB923C`)
 - **Secondary Accents (Mindset, specific charts):** Purple-500 (`#A855F7`) to Purple-400 (`#C084FC`)
 
-*Note on Accents:* When used as backgrounds for badges, use a 10% opacity of the color with a 20% opacity border (e.g., `bg-emerald-500/10 border-emerald-500/20 text-emerald-400`).
+*Note on Accents:* When used as backgrounds for badges, use a 10% opacity of the color with a 20% opacity border (e.g., `bg-blue-500/10 border-blue-500/20 text-blue-400`).
 
 ## 2. Typography
 

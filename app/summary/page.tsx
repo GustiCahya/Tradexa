@@ -138,7 +138,7 @@ export default function SummaryPage() {
             <p className="text-sm text-gray-400 mb-2">Most Frequent Emotion</p>
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-white">{analytics.psychology.mostFrequentEmotion}</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{analytics.psychology.mostFrequentEmotionPercentage}% of trades</span>
+              <span className="text-xs px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">{analytics.psychology.mostFrequentEmotionPercentage}% of trades</span>
             </div>
           </div>
         </StaggerItem>
@@ -148,7 +148,7 @@ export default function SummaryPage() {
             <p className="text-sm text-gray-400 mb-2">Worst Session (by RR)</p>
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-white">{analytics.psychology.worstSession}</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">{analytics.psychology.worstSessionAvgRr}R Avg</span>
+              <span className="text-xs px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">{analytics.psychology.worstSessionAvgRr}R Avg</span>
             </div>
           </div>
         </StaggerItem>

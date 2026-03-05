@@ -272,7 +272,7 @@ export default function TradeTable({ trades: initialTrades }: { trades: Trade[] 
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('pair')}>Pair {getSortIcon('pair')}</th>
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('session')}>Session {getSortIcon('session')}</th>
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('entryTF')}>TF {getSortIcon('entryTF')}</th>
-              <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('direction')}>Dir {getSortIcon('direction')}</th>
+              <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('direction')}>Direction {getSortIcon('direction')}</th>
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('rr')}>RR {getSortIcon('rr')}</th>
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors" onClick={() => requestSort('emotion')}>Mindset {getSortIcon('emotion')}</th>
               <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-white transition-colors text-right" onClick={() => requestSort('pnl')}>PnL {getSortIcon('pnl')}</th>
@@ -302,7 +302,7 @@ export default function TradeTable({ trades: initialTrades }: { trades: Trade[] 
                       <div className="text-white font-medium relative z-10 pointer-events-none">{new Date(trade.date).toLocaleDateString(locale)}</div>
                       <div className="text-[10px] text-gray-500 uppercase tracking-wider relative z-10 pointer-events-none">{trade.day}</div>
                     </td>
-                    <td className="px-6 py-4 font-semibold text-blue-400 relative z-10 pointer-events-none">{trade.pair}</td>
+                    <td className="px-6 py-4 font-semibold text-slate-200 relative z-10 pointer-events-none">{trade.pair}</td>
                     <td className="px-6 py-4 relative z-10 pointer-events-none">
                       <span className="text-gray-300">{trade.session}</span>
                     </td>
@@ -310,12 +310,12 @@ export default function TradeTable({ trades: initialTrades }: { trades: Trade[] 
                       <span className="px-1.5 py-0.5 rounded bg-white/5 text-[10px] text-gray-400 border border-white/10">{trade.entryTF}</span>
                     </td>
                     <td className="px-6 py-4 relative z-10 pointer-events-none">
-                      <span className={`px-2 py-1 rounded-md text-[10px] font-bold ${trade.direction === 'LONG' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                      <span className={`px-2 py-1 rounded-md text-[10px] font-bold ${trade.direction === 'LONG' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-pink-500/10 text-pink-500 border border-pink-500/20'}`}>
                         {trade.direction}
                       </span>
                     </td>
                     <td className="px-6 py-4 relative z-10 pointer-events-none">
-                      <span className={`font-mono font-bold ${Number(trade.rr) > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <span className={`font-mono font-bold ${Number(trade.rr) > 0 ? 'text-blue-400' : 'text-orange-500'}`}>
                         {trade.rr}R
                       </span>
                     </td>
@@ -325,7 +325,7 @@ export default function TradeTable({ trades: initialTrades }: { trades: Trade[] 
                          <span className="text-xs text-gray-400 italic">{trade.emotion}</span>
                       </div>
                     </td>
-                    <td className={`px-6 py-4 text-right font-bold relative z-10 pointer-events-none ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <td className={`px-6 py-4 text-right font-bold relative z-10 pointer-events-none ${isPositive ? 'text-blue-400' : 'text-orange-500'}`}>
                       {isPositive ? `+$${trade.pnl?.toFixed(2)}` : `-$${Math.abs(trade.pnl || 0).toFixed(2)}`}
                     </td>
                   </motion.tr>
