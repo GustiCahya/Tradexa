@@ -2,35 +2,94 @@
 
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FadeIn } from "../components/PageAnimate";
 
-export default function TradeInputPage() {
+const defaultFormData = {
+  id: "",
+  pair: "",
+  date: "",
+  session: "London",
+  entryTF: "1m",
+  direction: "LONG",
+  pnl: "",
+  rr: "",
+  day: "Monday",
+  emotion: "Neutral",
+  notes: ""
+};
+
+const getDefaultFormData = () => {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60000;
+  const localISOTime = (new Date(now.getTime() - offset)).toISOString().slice(0, 16);
+  const localDay = now.toLocaleDateString('en-US', { weekday: 'long' });
+  return { ...defaultFormData, date: localISOTime, day: localDay };
+};
+
+function TradeInputForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('id');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    pair: "",
-    date: new Date().toISOString().slice(0, 16),
-    session: "London",
-    entryTF: "1m",
-    direction: "LONG",
-    pnl: "",
-    rr: "",
-    day: new Date().toLocaleDateString('en-US', { weekday: 'long' }),
-    emotion: "Neutral",
-    notes: ""
-  });
+  const [formData, setFormData] = useState(defaultFormData);
+
+  useEffect(() => {
+    if (editId) {
+      // Fetch existing trade data
+      fetch(`/api/trades/${editId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data && !data.error) {
+               const localISOTime = new Date(data.date).toISOString().slice(0, 16);
+               setFormData({
+                  ...defaultFormData,
+                  ...data,
+                  date: localISOTime,
+                  pnl: data.pnl?.toString() ?? "",
+                  rr: data.rr?.toString() ?? "",
+               });
+            }
+        })
+        .catch(console.error);
+    } else {
+      setFormData(getDefaultFormData());
+    }
+  }, [editId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Ensure final payload has matching signs before sending to backend
+    const isPnlNegative = formData.pnl.startsWith('-');
+    const isRrNegative = formData.rr.startsWith('-');
+    
+    let finalPnl = formData.pnl;
+    let finalRr = formData.rr;
+    
+    if (isPnlNegative && !isRrNegative && finalRr !== "") {
+        finalRr = '-' + finalRr.replace('-', '');
+    } else if (isRrNegative && !isPnlNegative && finalPnl !== "") {
+        finalPnl = '-' + finalPnl.replace('-', '');
+    }
+    
+    // Clean up empty standalone "-" signs
+    if (finalPnl === "-") finalPnl = "";
+    if (finalRr === "-") finalRr = "";
+
+    const payload = { ...formData, pnl: finalPnl, rr: finalRr };
+
     try {
-      const response = await fetch('/api/trades', {
-        method: 'POST',
+      const url = editId ? `/api/trades` : `/api/trades`;
+      const method = editId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
@@ -45,9 +104,45 @@ export default function TradeInputPage() {
     }
   };
 
+  const syncSigns = (changedId: 'pnl' | 'rr', newValue: string, otherValue: string) => {
+    let newOtherValue = otherValue;
+    const isNegative = newValue.startsWith('-');
+    const otherIsNegative = otherValue.startsWith('-');
+    
+    if (isNegative && !otherIsNegative && otherValue !== '') {
+        newOtherValue = '-' + otherValue;
+    } else if (!isNegative && newValue !== '' && otherIsNegative) {
+        newOtherValue = otherValue.replace('-', '');
+    }
+    
+    if (isNegative && otherValue === '') {
+        newOtherValue = '-';
+    } else if (!isNegative && otherValue === '-') {
+        newOtherValue = '';
+    }
+    return newOtherValue;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    
+    if (id === 'pnl') {
+        const newRr = syncSigns('pnl', value, formData.rr);
+        setFormData(prev => ({ ...prev, pnl: value, rr: newRr }));
+    } else if (id === 'rr') {
+        const newPnl = syncSigns('rr', value, formData.pnl);
+        setFormData(prev => ({ ...prev, pnl: newPnl, rr: value }));
+    } else if (id === 'date') {
+        const dateObj = new Date(value);
+        if (!isNaN(dateObj.getTime())) {
+            const dayStr = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+            setFormData(prev => ({ ...prev, date: value, day: dayStr }));
+        } else {
+            setFormData(prev => ({ ...prev, date: value }));
+        }
+    } else {
+        setFormData(prev => ({ ...prev, [id]: value }));
+    }
   };
 
   return (
@@ -60,7 +155,7 @@ export default function TradeInputPage() {
       </FadeIn>
       
       <FadeIn delay={0.2}>
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Log New Trade</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">{editId ? "Edit Trade" : "Log New Trade"}</h1>
         <p className="text-gray-400 mb-10">Capture every detail of your trade, including your emotional state and RR.</p>
       </FadeIn>
 
@@ -76,6 +171,7 @@ export default function TradeInputPage() {
                 </label>
                 <input 
                   id="pair"
+                  list="pair-options"
                   type="text" 
                   required
                   value={formData.pair}
@@ -83,6 +179,19 @@ export default function TradeInputPage() {
                   placeholder="e.g. BTC/USD" 
                   className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
+                <datalist id="pair-options">
+                  <option value="EUR/USD" />
+                  <option value="GBP/USD" />
+                  <option value="USD/JPY" />
+                  <option value="AUD/USD" />
+                  <option value="USD/CAD" />
+                  <option value="USD/CHF" />
+                  <option value="NZD/USD" />
+                  <option value="GBP/JPY" />
+                  <option value="XAU/USD" />
+                  <option value="BTC/USD" />
+                  <option value="ETH/USD" />
+                </datalist>
               </div>
 
               {/* Date */}
@@ -96,7 +205,8 @@ export default function TradeInputPage() {
                   required
                   value={formData.date}
                   onChange={handleChange}
-                  className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-all [&::-webkit-calendar-picker-indicator]:filter-invert"
+                  style={{ colorScheme: 'dark' }}
+                  className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-all"
                 />
               </div>
 
@@ -108,8 +218,9 @@ export default function TradeInputPage() {
                 <select 
                   id="day"
                   value={formData.day}
+                  disabled
                   onChange={handleChange}
-                  className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-all appearance-none"
+                  className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white appearance-none opacity-70"
                 >
                   {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(d => (
                     <option key={d} value={d} className="bg-gray-900">{d}</option>
@@ -208,7 +319,7 @@ export default function TradeInputPage() {
                   onChange={handleChange}
                   className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-all appearance-none"
                 >
-                  {["Neutral", "Confident", "Greedy", "Fearful", "Anxious", "Disciplined", "Frustrated"].map(e => (
+                  {["Neutral", "Disciplined", "Confident", "Greedy", "Fearful", "Anxious", "Frustrated"].map(e => (
                     <option key={e} value={e} className="bg-gray-900">{e}</option>
                   ))}
                 </select>
@@ -247,7 +358,7 @@ export default function TradeInputPage() {
                 ) : (
                   <span className="flex items-center gap-2">
                     <Save className="w-4 h-4" />
-                    Save Trade Record
+                    {editId ? "Update Trade" : "Save Trade Record"}
                   </span>
                 )}
               </button>
@@ -256,5 +367,17 @@ export default function TradeInputPage() {
         </div>
       </FadeIn>
     </div>
+  );
+}
+
+export default function TradeInputPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex-1 max-w-4xl mx-auto w-full px-6 pt-32 pb-24 flex items-center justify-center min-h-[60vh]">
+        <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+      </div>
+    }>
+      <TradeInputForm />
+    </Suspense>
   );
 }

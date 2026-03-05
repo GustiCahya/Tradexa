@@ -47,8 +47,8 @@ export async function getOverviewStats(userId: string) {
     winRate,
     totalTrades,
     avgRr,
-    // Provide the 5 most recent trades
-    recentTrades: trades.slice(0, 5),
+    // Provide all trades for the client-side table
+    recentTrades: trades,
   };
 }
 
@@ -138,4 +138,28 @@ export async function getSummaryAnalytics(userId: string) {
       worstSessionAvgRr: lowestAvgRr
     }
   };
+}
+
+export async function getTrade(userId: string, tradeId: string) {
+  return await prisma.trade.findFirst({
+    where: { id: tradeId, userId }
+  });
+}
+
+export async function updateTrade(userId: string, tradeId: string, data: CreateTradeInput) {
+  return await prisma.trade.update({
+    where: { id: tradeId, userId },
+    data: {
+      pair: data.pair,
+      date: new Date(data.date),
+      session: data.session,
+      entryTF: data.entryTF,
+      direction: data.direction,
+      pnl: data.pnl ? parseFloat(String(data.pnl)) : 0,
+      rr: data.rr ? parseFloat(String(data.rr)) : 0,
+      day: data.day,
+      emotion: data.emotion,
+      notes: data.notes,
+    },
+  });
 }
