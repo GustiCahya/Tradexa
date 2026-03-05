@@ -4,8 +4,14 @@ This document describes the core features and user flows of the Tradexa applicat
 
 ## 1. Authentication
 - User sign-up (Email/Password) and login.
-- JWT-based session management.
+- JWT-based session management via **NextAuth v5** connected directly to **Neon PostgreSQL**.
 - Unauthenticated users are redirected to `/login` if attempting to access protected routes (`/overview`, `/trade-input`, `/summary`).
+- **Form Validation (Register page):** Client-side validation using `react-hook-form` + `zod`:
+  - **Full Name:** Min 2 chars, max 64 chars. Letters, spaces, hyphens, and apostrophes only.
+  - **Email:** Must be a valid email format.
+  - **Password:** Min 8 characters.
+  - Errors display inline beneath each field with orange styling.
+- **Form Validation (Login page):** Email and password are required; any invalid credentials return a server-side error from NextAuth.
 
 ## 2. Dashboard (Overview)
 The central hub for viewing trade history.

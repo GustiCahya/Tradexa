@@ -29,23 +29,10 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // 1. Intercept for local storage test before NextAuth connects to Neon
-      const localUser = localStorage.getItem("tradexa_temp_user");
-      if (localUser) {
-        const parsed = JSON.parse(localUser);
-        if (parsed.email === formData.email && parsed.password === formData.password) {
-           // Simulate a successful local login for testing
-           setTimeout(() => {
-             router.push("/overview");
-           }, 500);
-           return;
-        }
-      }
-
-      // 2. Use NextAuth signIn to authenticate against Neon Postgres Database
+      // Authenticate via NextAuth against Neon Postgres Database
       const result = await signIn("credentials", {
         redirect: false,
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         password: formData.password,
       });
 
