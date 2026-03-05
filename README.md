@@ -1,4 +1,4 @@
-# Tradexa (formerly TradeLog)
+# Tradexa
 
 Tradexa is a premium trading journal for serious traders. Track your performance, analyze your mistakes, and elevate your trading edge.
 
