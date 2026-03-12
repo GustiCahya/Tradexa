@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { getUserId } from '@/lib/auth-utils';
 import { getSummaryAnalytics } from '@/lib/services/trade.service';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const session = await auth();
-    if (!session || !session.user || !session.user.id) {
+    const userId = await getUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const analytics = await getSummaryAnalytics(session.user.id);
+    const analytics = await getSummaryAnalytics(userId);
 
     return NextResponse.json(analytics, { status: 200 });
   } catch (error) {

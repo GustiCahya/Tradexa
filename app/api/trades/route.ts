@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { getUserId } from '@/lib/auth-utils';
 import { createTrade } from '@/lib/services/trade.service';
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session || !session.user || !session.user.id) {
+    const userId = await getUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const data = await request.json();
-    const trade = await createTrade(session.user.id, data);
+    const trade = await createTrade(userId, data);
 
     return NextResponse.json({ success: true, trade }, { status: 201 });
   } catch (error) {
@@ -23,8 +23,8 @@ import { updateTrade } from '@/lib/services/trade.service';
 
 export async function PUT(request: Request) {
   try {
-    const session = await auth();
-    if (!session || !session.user || !session.user.id) {
+    const userId = await getUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -33,7 +33,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Trade ID is required for update' }, { status: 400 });
     }
 
-    const trade = await updateTrade(session.user.id, data.id, data);
+    const trade = await updateTrade(userId, data.id, data);
 
     return NextResponse.json({ success: true, trade }, { status: 200 });
   } catch (error) {

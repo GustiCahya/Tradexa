@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { getUserId } from '@/lib/auth-utils';
 import { getTrade, deleteTrade } from '@/lib/services/trade.service';
 
 export async function GET(
@@ -7,14 +7,14 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session || !session.user || !session.user.id) {
+    const userId = await getUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const p = await params;
 
-    const trade = await getTrade(session.user.id, p.id);
+    const trade = await getTrade(userId, p.id);
     if (!trade) {
       return NextResponse.json({ error: 'Trade not found' }, { status: 404 });
     }
@@ -31,13 +31,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session || !session.user || !session.user.id) {
+    const userId = await getUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const p = await params;
-    const deleted = await deleteTrade(session.user.id, p.id);
+    const deleted = await deleteTrade(userId, p.id);
     if (!deleted) {
       return NextResponse.json({ error: 'Trade not found or unauthorized' }, { status: 404 });
     }
