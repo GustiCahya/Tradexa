@@ -1,6 +1,23 @@
 import { NextResponse } from 'next/server';
 import { getUserId } from '@/lib/auth-utils';
 import { createTrade } from '@/lib/services/trade.service';
+import { getTrades } from '@/lib/services/trade.service';
+
+export async function GET(request: Request) {
+  try {
+    const userId = await getUserId(request);
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const trades = await getTrades(userId);
+    return NextResponse.json({ success: true, trades });
+  } catch (error) {
+    console.error('Failed to fetch trades:', error);
+    return NextResponse.json({ error: 'Failed to fetch trades.' }, { status: 500 });
+  }
+}
+
 
 export async function POST(request: Request) {
   try {

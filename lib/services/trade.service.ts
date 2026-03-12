@@ -153,6 +153,13 @@ export async function getTrade(userId: string, tradeId: string) {
   });
 }
 
+export async function getTrades(userId: string) {
+  return await prisma.trade.findMany({
+    where: { userId },
+    orderBy: { date: 'desc' },
+  });
+}
+
 export async function updateTrade(userId: string, tradeId: string, data: CreateTradeInput) {
   return await prisma.trade.update({
     where: { id: tradeId, userId },
