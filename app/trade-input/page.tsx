@@ -180,17 +180,23 @@ function TradeInputForm() {
                   className="w-full h-12 px-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
                 <datalist id="pair-options">
-                  <option value="EUR/USD" />
-                  <option value="GBP/USD" />
-                  <option value="USD/JPY" />
-                  <option value="AUD/USD" />
-                  <option value="USD/CAD" />
-                  <option value="USD/CHF" />
-                  <option value="NZD/USD" />
-                  <option value="GBP/JPY" />
-                  <option value="XAU/USD" />
-                  <option value="BTC/USD" />
-                  <option value="ETH/USD" />
+                  <option value="EURUSD" />
+                  <option value="GBPUSD" />
+                  <option value="USDJPY" />
+                  <option value="AUDUSD" />
+                  <option value="USDCAD" />
+                  <option value="USDCHF" />
+                  <option value="NZDUSD" />
+                  <option value="GBPJPY" />
+                  <option value="XAUUSD" />
+                  <option value="XAGUSD" />
+                  <option value="BTCUSD" />
+                  <option value="ETHUSD" />
+                  <option value="SPX500" />
+                  <option value="NAS100" />
+                  <option value="US30" />
+                  <option value="US2000" />
+                  <option value="USTEC" />
                 </datalist>
               </div>
 
